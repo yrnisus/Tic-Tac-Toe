@@ -82,5 +82,7 @@ body {
 
     #reset-btn {
         margin-top: 100px;
+        background-color: lightblue;
+        font-size: 24px;
     }
   }
