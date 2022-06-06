@@ -64,3 +64,22 @@ body {
     width: 100px;
     height: 50px;
 }
+
+@media screen and (max-width: 450px) {
+    .square {
+      width: 100px;
+      height: 100px;
+    }
+
+    .top-row, .middle-row, .bottom-row {
+        grid-template-columns: repeat(3, 100px);
+    }
+
+    .gameboard-container {
+        grid-template: repeat(3, 100px) / repeat(3, 100px);
+    }
+
+    #reset-btn {
+        margin-top: 100px;
+    }
+  }
