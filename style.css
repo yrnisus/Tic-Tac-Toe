@@ -7,6 +7,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .gameboard-container {
@@ -18,6 +19,11 @@ body {
 .square {
     height: 200px;
     width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 .top-row {
@@ -51,4 +57,10 @@ body {
 
 .left-column {
     margin-left: 3px;
+}
+
+#reset-btn {
+    margin-top: 50px;
+    width: 100px;
+    height: 50px;
 }

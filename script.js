@@ -19,26 +19,93 @@ create them with factories. */
 
 
 const gameboard = (() => {
-    const score = 0;
+    // selects all of the square divs
+    const _squares = document.querySelectorAll(".square");
+    const _resetBtn = document.getElementById('reset-btn');
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
+
+    const _selectionArray = new Array(9);
+
+    // useless
+    // _privateMethod = () => {
+    //     console.log("Sir");
+    // }
+
+    _addEventListeners = () => {
+        // Adds input to gameboard and _selectionArray
+        _squares.forEach((square, index) => {
+            square.addEventListener("click", () => {
+                if(_checkSquareEmpty(square)) {
+                    _inputToSelectionArray(index);
+                    _drawInput(square);
+                }
+            })
+        });
+        // Reset gameboard and _selectionArray on click
+        _resetBtn.addEventListener('click', () => {
+            gameboard.reset();
+
+        })
+    }
+
+    _drawInput = (square) => {
+        square.innerHTML = "X";
+        console.log('input');
+    }
+
+    _inputToSelectionArray = (index) => {
+        _selectionArray[index] = "X";
+    }
+    
+    _checkSquareEmpty = (square) => {
+        if(square.innerHTML === "")
+            return true;
+    }
+
+    _clearSelectionArray = () => {
+        _selectionArray.splice(0, _selectionArray.length);
+    }
+    _addEventListeners()
+
+        
     return {
-        greeting: function() {
-            console.log('Hello World');
+        // fills all of the squares on the board
+        testFillSquares: () => {
+            _squares.forEach((value, i) => {
+                _squares[i].innerHTML = "X"
+        })
+    },
+    reset: () => {
+        _squares.forEach((square) => {
+            square.innerHTML = "";
+        _clearSelectionArray();
+        })
+    },
+    // 
+        // publicMethod: _privateMethod
             
-        }
     };
 })();
 
-gameboard.greeting();
-console.log(gameboard.score);
+    // gameboard.publicMethod();
 
-const displayController = () => {
-    
 
-    const startGame = () => {
-        const squares = document.querySelectorAll(".square");
+
+
+const displayController= (() => {
+
+    function _privateMethod() {
+        console.log(_score);
     }
-
-}
+        
+    return {
+        greeting: () => {
+            console.log('Hello World');
+        }
+    };
+})();
 
 // Factory Function
 
