@@ -22,9 +22,10 @@ const gameboard = (() => {
     // selects all of the square divs
     const _squares = document.querySelectorAll(".square");
     const _resetBtn = document.getElementById('reset-btn');
-        // 0 1 2
-        // 3 4 5
-        // 6 7 8
+    let _turn = true;
+    // 0 1 2
+    // 3 4 5
+    // 6 7 8
 
     const _selectionArray = new Array(9);
 
@@ -37,30 +38,40 @@ const gameboard = (() => {
         // Adds input to gameboard and _selectionArray
         _squares.forEach((square, index) => {
             square.addEventListener("click", () => {
-                if(_checkSquareEmpty(square)) {
+                if (_checkSquareEmpty(square)) {
                     _inputToSelectionArray(index);
                     _drawInput(square);
+                    _changeTurn();
                 }
             })
         });
         // Reset gameboard and _selectionArray on click
         _resetBtn.addEventListener('click', () => {
             gameboard.reset();
-
         })
     }
 
+    _changeTurn = () => {
+        _turn = !_turn;
+    }
+
+
+
+    _getInput = () => {
+         return (_turn ? "X" : "O");
+    }
+
     _drawInput = (square) => {
-        square.innerHTML = "X";
+        square.innerHTML = _getInput();
         console.log('input');
     }
 
     _inputToSelectionArray = (index) => {
-        _selectionArray[index] = "X";
+        _selectionArray[index] = _getInput();
     }
-    
+
     _checkSquareEmpty = (square) => {
-        if(square.innerHTML === "")
+        if (square.innerHTML === "")
             return true;
     }
 
@@ -69,37 +80,42 @@ const gameboard = (() => {
     }
     _addEventListeners()
 
-        
+
     return {
         // fills all of the squares on the board
         testFillSquares: () => {
             _squares.forEach((value, i) => {
                 _squares[i].innerHTML = "X"
-        })
-    },
-    reset: () => {
-        _squares.forEach((square) => {
-            square.innerHTML = "";
-        _clearSelectionArray();
-        })
-    },
-    // 
+            })
+        },
+        reset: () => {
+            _squares.forEach((square) => {
+                square.innerHTML = "";
+                _clearSelectionArray();
+            })
+            _turn = true;
+        },
+
+        getTurn: () => {
+            return _turn;
+        }
+        // 
         // publicMethod: _privateMethod
-            
+
     };
 })();
 
-    // gameboard.publicMethod();
+// gameboard.publicMethod();
 
 
 
 
-const displayController= (() => {
+const displayController = (() => {
 
     function _privateMethod() {
         console.log(_score);
     }
-        
+
     return {
         greeting: () => {
             console.log('Hello World');
@@ -114,14 +130,14 @@ const displayController= (() => {
 //     const printString = () => console.log(`----${capitalizeString()}----`);
 //     return { printString };
 //   };
-  
+
 //   const taco = FactoryFunction('taco');
-  
+
 //   printString(); // ERROR!!
 //   capitalizeString(); // ERROR!!
 //   taco.capitalizeString(); // ERROR!!
 //   taco.printString(); // this prints "----TACO----"
-  
+
 
 const player = () => {
 
