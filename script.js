@@ -80,26 +80,7 @@ const gameboard = (() => {
             if (a === b && b === c) {
                 win = true;
                 console.log("win");
-                
-                // get the xy coords of the of outer two squares
-                let rectLeft = _squares[winNum[0]].getBoundingClientRect();
-                let rectRight = _squares[winNum[2]].getBoundingClientRect();
-                function Coordinates(x, y) {
-                    this.x = x, 
-                    this.y = y
-                };
-                // square div is different sizes on mobile vs desktop need to find the midpoint
-                const xyCoordLeft = new Coordinates(((rectLeft.bottom - rectLeft.top) / 2), ((rectLeft.right - rectLeft.left) / 2));
-                console.log(xyCoordLeft.x, xyCoordLeft.y);
-                    
-                    
-                    // rectLeft.bottom - rectLeft.top) / 2) 
-                rectRight.top = (rectRight.bottom - rectRight.top) / 2; 
-
-                console.log(rectLeft.top, rectLeft.right, rectLeft.bottom, rectLeft.left);
-
-
-
+                _getDrawnLineXY(winNum);
                 displayController.displayResult();
                 break;
             }
@@ -121,6 +102,25 @@ const gameboard = (() => {
     _getInput = () => {
         return (_turn ? "X" : "O");
     }
+
+    _getDrawnLineXY = (winNum) => {
+        // get the xy coords of the of outer two square divs
+        let rectLeft = _squares[winNum[0]].getBoundingClientRect();
+        let rectRight = _squares[winNum[2]].getBoundingClientRect();
+
+        function Coordinates(x, y) {
+            this.x = x,
+                this.y = y
+        };
+        // square div is different sizes on mobile vs desktop need to find the midpoint
+        const xyCoordLeft = new Coordinates(((rectLeft.right + rectLeft.left) / 2), ((rectLeft.bottom + rectLeft.top) / 2));
+        console.log(xyCoordLeft.x, xyCoordLeft.y);
+        const xyCoordRight = new Coordinates(((rectRight.right + rectRight.left) / 2), ((rectRight.bottom + rectRight.top) / 2));
+        console.log(xyCoordRight.x, xyCoordRight.y);
+
+        displayController.drawLine(xyCoordLeft, xyCoordRight);
+    }
+
     // draws the input to empty square div
     _drawInput = (square) => {
         square.innerHTML = _getInput();
@@ -188,6 +188,25 @@ const displayController = (() => {
         return 'Tie';
     }
 
+    _drawLine = (xyCoordLeft, xyCoordRight) => {
+        // creates two divs and positions them at the XY coordinates of outer two squares
+        let pointLeft = document.createElement('div');
+
+        Object.assign(pointLeft.style, {left:`${xyCoordLeft.x}px`, top: `${xyCoordLeft.y}px`})
+        pointLeft.setAttribute("id", "victory-line-left");
+
+        let pointRight = document.createElement('div');
+        Object.assign(pointRight.style, {left:`${xyCoordRight.x}px`, top: `${xyCoordRight.y}px`})
+        pointRight.setAttribute("id", "victory-line-right");
+
+        // const line = querySelector.getElementById('line');
+        // line.sty
+        // console.log(line);
+
+        gameboardContainer.appendChild(pointLeft);
+        gameboardContainer.appendChild(pointRight);
+    }
+
     _clearResult = () => {
         const gameboardContainer = document.querySelector(('.gameboard-container'));
         gameboardContainer.classList.remove('show');
@@ -200,7 +219,8 @@ const displayController = (() => {
         },
         // get win or tie from gameboard, change the background of gameboard object to show winner
         displayResult: _displayResult,
-        clearResult: _clearResult
+        clearResult: _clearResult,
+        drawLine: _drawLine
     };
 })();
 
