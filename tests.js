@@ -91,7 +91,7 @@
         //     }
         // })
 
-    }
+    
 
         // spent hours on this ended up using the code from
         // https://dev.to/bornasepic/pure-and-simple-tic-tac-toe-with-javascript-4pgn
@@ -123,4 +123,26 @@
         // if (win) {
         //     console.log("Win");
         //     return;
+        // }
+
+
+
+        // for (let i = 0; i <_winArray.length; i++) {
+        //     //_selectionArray contains the input at indexes of the selected squares
+        //     let [a, b, c] = [_selectionArray[_winArray[i][0]], _selectionArray[_winArray[i][1]], _selectionArray[_winArray[i][2]]];
+        //     // check if those squares are empty then skip
+        //     if (a === '' || b === '' || c === "") {
+        //         continue;
+        //     }
+        //     // if they contain same value then winner
+        //     if (a === b && b === c) {
+        //         win = true;
+        //         console.log("win");
+        //         break;
+        //     }
+        // }
+
+
+        // _checkTie = () => {
+        //     return _selectionArray.every(e => e === !null);
         // }

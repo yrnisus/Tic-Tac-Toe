@@ -12,7 +12,7 @@ const gameboard = (() => {
     // 3 4 5
     // 6 7 8
 
-    const _selectionArray = new Array(9);
+    let _selectionArray = new Array(9);
     // array of winning combinations
     const _winArray = [
         [0, 1, 2],
@@ -35,7 +35,7 @@ const gameboard = (() => {
                     _inputToSelectionArray(index);
                     _inputToPlayerArray(index);
                     _drawInput(square);
-                    _checkComplete();
+                    _checkWinner();
                     _changeTurn();
                 }
             })
@@ -54,47 +54,36 @@ const gameboard = (() => {
         if (square.innerHTML === "")
             return true;
     }
-    _checkComplete = () => {
+
+    _checkTie = () => {
+        return !_selectionArray.includes(undefined);
+    }
+
+    _checkWinner = () => {
         // Win State
         // _playerOneArray [0, 3, 4, 8] winner
         //_playerTwoArray [2,5,6]
         //_winArray[i][0,4,8]
         // loop through winArray to get find the correct array
-        for (let i = 0; i <_winArray.length; i++) {
-                let winNum = _winArray[i];
-                //_selectionArray contains the input at indexes of the selected squares
-                // let [a, b, c] = [_selectionArray[_winArray[i][0]], _selectionArray[_winArray[i][1]], _selectionArray[_winArray[i][2]]];
-                let [a, b, c] = [_selectionArray[winNum[0]],_selectionArray[winNum[1]],_selectionArray[winNum[2]]];
-                // check if those squares are empty then skip
-                if (a == null || b == null || c == null) {
-                    continue;
-                }
-                // if they contain same value then winner
-                if (a === b && b === c) {
-                    win = true;
-                    console.log('win');
-                    break;
-                }
+        for (let i = 0; i < _winArray.length; i++) {
+            let winNum = _winArray[i];
+            //_selectionArray contains the input at indexes of the selected squares
+            // let [a, b, c] = [_selectionArray[_winArray[i][0]], _selectionArray[_winArray[i][1]], _selectionArray[_winArray[i][2]]];
+            let [a, b, c] = [_selectionArray[winNum[0]], _selectionArray[winNum[1]], _selectionArray[winNum[2]]];
+            // check if those squares are empty then skip
+            if (a == null || b == null || c == null) {
+                continue;
             }
-
+            // if they contain same value then winner
+            if (a === b && b === c) {
+                win = true;
+                console.log('win');
+                break;
+            }
+        }
+        if(_checkTie())
+            console.log("Tie");
     }
-
-//     for (const x of _winArray) {
-//         //_selectionArray contains the input at indexes of the selected squares
-//         let [a, b, c] = [_selectionArray[_winArray[x][0]], _selectionArray[_winArray[x][1]], _selectionArray[_winArray[x][2]]];
-//         // check if those squares are empty then skip
-//         if (a === '' || b === '' || c === "") {
-//             continue;
-//         }
-//         if (a === b && b === c) {
-//             win = true;
-//             break;
-//         }
-//     }
-
-// }
-
-
 
     // resets all of the arrays to empty
     _clearArrays = () => {
@@ -185,6 +174,3 @@ const displayController = (() => {
 //   capitalizeString(); // ERROR!!
 //   taco.capitalizeString(); // ERROR!!
 //   taco.printString(); // this prints "----TACO----"
-
-
-gameboard.getPlayerArrays()
