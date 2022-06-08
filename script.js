@@ -55,33 +55,46 @@ const gameboard = (() => {
             return true;
     }
     _checkComplete = () => {
-        // spent hours on this ended up using the code from
-        // https://dev.to/bornasepic/pure-and-simple-tic-tac-toe-with-javascript-4pgn
-        // boolean win var
-        let win = false;
-        // walks through the _winArray[]
-        for (let i = 0; i < _winArray.length; i++) {
-            // assigns value of _winArray[][]
-            const winCombo = _winArray[i];
-            let a = _squares[winCombo[0]].innerHTML;
-            let b = _squares[winCombo[1]].innerHTML;
-            let c = _squares[winCombo[2]].innerHTML;
-            // if the squares are empty skips
-            if (a === '' || b === '' || c === "") {
-                continue;
+        // Win State
+        // _playerOneArray [0, 3, 4, 8] winner
+        //_playerTwoArray [2,5,6]
+        //_winArray[i][0,4,8]
+        // loop through winArray to get find the correct array
+        for (let i = 0; i <_winArray.length; i++) {
+                let winNum = _winArray[i];
+                //_selectionArray contains the input at indexes of the selected squares
+                // let [a, b, c] = [_selectionArray[_winArray[i][0]], _selectionArray[_winArray[i][1]], _selectionArray[_winArray[i][2]]];
+                let [a, b, c] = [_selectionArray[winNum[0]],_selectionArray[winNum[1]],_selectionArray[winNum[2]]];
+                // check if those squares are empty then skip
+                if (a == null || b == null || c == null) {
+                    continue;
+                }
+                // if they contain same value then winner
+                if (a === b && b === c) {
+                    win = true;
+                    console.log('win');
+                    break;
+                }
             }
-            if (a === b && b === c) {
-                win = true;
-                break
-            }
-        }
-        if (win) {
-            console.log("Win");
-            return;
-        }
-        let tie = false;
 
     }
+
+//     for (const x of _winArray) {
+//         //_selectionArray contains the input at indexes of the selected squares
+//         let [a, b, c] = [_selectionArray[_winArray[x][0]], _selectionArray[_winArray[x][1]], _selectionArray[_winArray[x][2]]];
+//         // check if those squares are empty then skip
+//         if (a === '' || b === '' || c === "") {
+//             continue;
+//         }
+//         if (a === b && b === c) {
+//             win = true;
+//             break;
+//         }
+//     }
+
+// }
+
+
 
     // resets all of the arrays to empty
     _clearArrays = () => {

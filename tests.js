@@ -92,3 +92,35 @@
         // })
 
     }
+
+        // spent hours on this ended up using the code from
+        // https://dev.to/bornasepic/pure-and-simple-tic-tac-toe-with-javascript-4pgn
+
+        // Working Code
+
+        // // boolean win var
+        // let win = false;
+        // // walks through the _winArray[]
+        // for (let i = 0; i < _winArray.length; i++) {
+        //     // assigns value of _winArray[][]
+        //     const winCombo = _winArray[i];
+
+
+        //     //  _selectionArray[index] contains input at square
+
+        //     let a = _squares[winCombo[0]].innerHTML;
+        //     let b = _squares[winCombo[1]].innerHTML;
+        //     let c = _squares[winCombo[2]].innerHTML;
+        //     // if the squares are empty skips
+        //     if (a === '' || b === '' || c === "") {
+        //         continue;
+        //     }
+        //     if (a === b && b === c) {
+        //         win = true;
+        //         break
+        //     }
+        // }
+        // if (win) {
+        //     console.log("Win");
+        //     return;
+        // }
