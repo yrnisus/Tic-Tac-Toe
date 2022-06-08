@@ -11,10 +11,40 @@ body {
 }
 
 .gameboard-container {
+    height: 600px;
+    width: 600px;
     display: grid;
     grid-template: repeat(3, 200px) / repeat(3, 200px);
     margin-top: calc(50vh - 300px);
 }
+
+#result-text {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.gameboard-container.show > #result-text {
+    visibility: visible;
+    opacity: 1;
+    content: "X";
+  }
+
+.gameboard-container.show {
+    width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    content: "";
+    z-index: 1;
+    font-size: 300px;
+    color: #000;
+}
+
+.gameboard-container.show > div:not([id="result-text"]) {
+    display: none;
+  }
 
 .square {
     height: 200px;
@@ -65,6 +95,20 @@ body {
     height: 50px;
 }
 
+
+#victory-line-left {
+    position: absolute;
+    top: 279px;
+    left: 441px;
+    width: 5px;
+    height: 5px;
+    background-color: red;
+}
+
+#victory-line-right {
+    position: absolute;
+}
+
 @media screen and (max-width: 450px) {
     .square {
       width: 100px;
@@ -76,6 +120,8 @@ body {
     }
 
     .gameboard-container {
+        height: 300px;
+        width: 300px;
         grid-template: repeat(3, 100px) / repeat(3, 100px);
         margin-top: calc(50vh - 200px);
     }

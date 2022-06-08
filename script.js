@@ -43,6 +43,7 @@ const gameboard = (() => {
         // Reset gameboard and _selectionArray on click
         _resetBtn.addEventListener('click', () => {
             gameboard.reset();
+            displayController.clearResult()
         })
     }
     // toggles _turn
@@ -60,6 +61,7 @@ const gameboard = (() => {
     }
 
     _checkWinner = () => {
+        let win = false;
         // Win State
         // _playerOneArray [0, 3, 4, 8] winner
         //_playerTwoArray [2,5,6]
@@ -77,17 +79,41 @@ const gameboard = (() => {
             // if they contain same value then winner
             if (a === b && b === c) {
                 win = true;
-                console.log('win');
+                console.log("win");
+                
+                // get the xy coords of the of outer two squares
+                let rectLeft = _squares[winNum[0]].getBoundingClientRect();
+                let rectRight = _squares[winNum[2]].getBoundingClientRect();
+                function Coordinates(x, y) {
+                    this.x = x, 
+                    this.y = y
+                };
+                // square div is different sizes on mobile vs desktop need to find the midpoint
+                const xyCoordLeft = new Coordinates(((rectLeft.bottom - rectLeft.top) / 2), ((rectLeft.right - rectLeft.left) / 2));
+                console.log(xyCoordLeft.x, xyCoordLeft.y);
+                    
+                    
+                    // rectLeft.bottom - rectLeft.top) / 2) 
+                rectRight.top = (rectRight.bottom - rectRight.top) / 2; 
+
+                console.log(rectLeft.top, rectLeft.right, rectLeft.bottom, rectLeft.left);
+
+
+
+                displayController.displayResult();
                 break;
             }
         }
-        if(_checkTie())
-            console.log("Tie");
+        if (!win && _checkTie()) {
+            console.log('tie');
+            _clearArrays();
+            displayController.displayResult();
+        }
     }
 
     // resets all of the arrays to empty
     _clearArrays = () => {
-        _selectionArray.splice(0, _selectionArray.length);
+        _selectionArray = new Array(9);
         _playerOneArray.splice(0, _playerOneArray.length);
         _playerTwoArray.splice(0, _playerTwoArray.length);
     }
@@ -112,12 +138,6 @@ const gameboard = (() => {
 
 
     return {
-        // fills all of the squares on the board
-        testFillSquares: () => {
-            _squares.forEach((value, i) => {
-                _squares[i].innerHTML = "X"
-            })
-        },
         reset: () => {
             _squares.forEach((square) => {
                 square.innerHTML = "";
@@ -126,14 +146,12 @@ const gameboard = (() => {
             _turn = true;
         },
 
-        getTurn: () => {
-            return _turn;
+        show: () => {
+            console.log(_selectionArray);
         },
 
-        getPlayerArrays: () => {
-            console.log(_playerOneArray);
-            console.log(_playerTwoArray);
-            console.log(_selectionArray);
+        getTurn: () => {
+            return _turn;
         },
 
         sortArray: (arr) => {
@@ -141,22 +159,48 @@ const gameboard = (() => {
                 return a - b;
             })
             return arr;
-        }
+        },
+        getInput: _getInput
     };
 })();
 
 
-
 const displayController = (() => {
+    const gameboardContainer = document.querySelector(('.gameboard-container'));
+    const resultText = document.getElementById('result-text');
 
     function _privateMethod() {
         console.log(_score);
     }
 
+    _displayResult = (state) => {
+        // if (state === 'Win')
+        //     resultText.innerHTML = _displayWin()
+        // else
+        //     resultText.innerHTML = _displayTie();
+        // gameboardContainer.classList.add('show');
+    }
+    _displayWin = () => {
+        return gameboard.getInput();
+    }
+
+    _displayTie = () => {
+        return 'Tie';
+    }
+
+    _clearResult = () => {
+        const gameboardContainer = document.querySelector(('.gameboard-container'));
+        gameboardContainer.classList.remove('show');
+    }
+
+
     return {
         greeting: () => {
             console.log('Hello World');
-        }
+        },
+        // get win or tie from gameboard, change the background of gameboard object to show winner
+        displayResult: _displayResult,
+        clearResult: _clearResult
     };
 })();
 
