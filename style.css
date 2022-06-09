@@ -110,6 +110,10 @@ body {
     background-color: red;
 }
 
+
+
+/* mobile */
+
 @media screen and (max-width: 450px) {
     .square {
       width: 100px;

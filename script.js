@@ -80,7 +80,8 @@ const gameboard = (() => {
             if (a === b && b === c) {
                 win = true;
                 console.log("win");
-                _getDrawnLineXY(winNum);
+                // _getDrawnLineXY(winNum);
+                displayController.highlightWinner(winNum);
                 displayController.displayResult();
                 break;
             }
@@ -103,23 +104,23 @@ const gameboard = (() => {
         return (_turn ? "X" : "O");
     }
 
-    _getDrawnLineXY = (winNum) => {
-        // get the xy coords of the of outer two square divs
-        let rectLeft = _squares[winNum[0]].getBoundingClientRect();
-        let rectRight = _squares[winNum[2]].getBoundingClientRect();
+    // _getDrawnLineXY = (winNum) => {
+    //     // get the xy coords of the of outer two square divs
+    //     let rectLeft = _squares[winNum[0]].getBoundingClientRect();
+    //     let rectRight = _squares[winNum[2]].getBoundingClientRect();
 
-        function Coordinates(x, y) {
-            this.x = x,
-                this.y = y
-        };
-        // square div is different sizes on mobile vs desktop need to find the midpoint
-        const xyCoordLeft = new Coordinates(((rectLeft.right + rectLeft.left) / 2), ((rectLeft.bottom + rectLeft.top) / 2));
-        console.log(xyCoordLeft.x, xyCoordLeft.y);
-        const xyCoordRight = new Coordinates(((rectRight.right + rectRight.left) / 2), ((rectRight.bottom + rectRight.top) / 2));
-        console.log(xyCoordRight.x, xyCoordRight.y);
+    //     function Coordinates(x, y) {
+    //         this.x = x,
+    //             this.y = y
+    //     };
+    //     // square div is different sizes on mobile vs desktop need to find the midpoint
+    //     const xyCoordLeft = new Coordinates(((rectLeft.right + rectLeft.left) / 2), ((rectLeft.bottom + rectLeft.top) / 2));
+    //     console.log(xyCoordLeft.x, xyCoordLeft.y);
+    //     const xyCoordRight = new Coordinates(((rectRight.right + rectRight.left) / 2), ((rectRight.bottom + rectRight.top) / 2));
+    //     console.log(xyCoordRight.x, xyCoordRight.y);
 
-        displayController.drawLine(xyCoordLeft, xyCoordRight);
-    }
+    //     displayController.drawLine(xyCoordLeft, xyCoordRight);
+    // }
 
     // draws the input to empty square div
     _drawInput = (square) => {
@@ -188,24 +189,26 @@ const displayController = (() => {
         return 'Tie';
     }
 
-    _drawLine = (xyCoordLeft, xyCoordRight) => {
-        // creates two divs and positions them at the XY coordinates of outer two squares
-        let pointLeft = document.createElement('div');
+    // I want to draw a line between the two points but I cannot figure this out
 
-        Object.assign(pointLeft.style, {left:`${xyCoordLeft.x}px`, top: `${xyCoordLeft.y}px`})
-        pointLeft.setAttribute("id", "victory-line-left");
+    // _drawLine = (xyCoordLeft, xyCoordRight) => {
+    //     // creates two divs and positions them at the XY coordinates of outer two squares
+    //     let pointLeft = document.createElement('div');
 
-        let pointRight = document.createElement('div');
-        Object.assign(pointRight.style, {left:`${xyCoordRight.x}px`, top: `${xyCoordRight.y}px`})
-        pointRight.setAttribute("id", "victory-line-right");
+    //     Object.assign(pointLeft.style, {left:`${xyCoordLeft.x}px`, top: `${xyCoordLeft.y}px`})
+    //     pointLeft.setAttribute("id", "victory-line-left");
 
-        // const line = querySelector.getElementById('line');
-        // line.sty
-        // console.log(line);
+    //     let pointRight = document.createElement('div');
+    //     Object.assign(pointRight.style, {left:`${xyCoordRight.x}px`, top: `${xyCoordRight.y}px`})
+    //     pointRight.setAttribute("id", "victory-line-right");
 
-        gameboardContainer.appendChild(pointLeft);
-        gameboardContainer.appendChild(pointRight);
-    }
+    //     // const line = querySelector.getElementById('line');
+    //     // line.sty
+    //     // console.log(line);
+
+    //     gameboardContainer.appendChild(pointLeft);
+    //     gameboardContainer.appendChild(pointRight);
+    // }
 
     _clearResult = () => {
         const gameboardContainer = document.querySelector(('.gameboard-container'));
@@ -219,8 +222,8 @@ const displayController = (() => {
         },
         // get win or tie from gameboard, change the background of gameboard object to show winner
         displayResult: _displayResult,
-        clearResult: _clearResult,
-        drawLine: _drawLine
+        clearResult: _clearResult
+        // drawLine: _drawLine
     };
 })();
 
