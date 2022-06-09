@@ -95,22 +95,6 @@ body {
     height: 50px;
 }
 
-
-#victory-line-left {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background-color: red;
-}
-
-#victory-line-right {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background-color: red;
-}
-
-
 .svg-container {
     visibility: hidden;
     margin-top: calc(50vh - 300px);
