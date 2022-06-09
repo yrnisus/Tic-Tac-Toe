@@ -119,6 +119,10 @@ body {
     top: 0;
 }
 
+.svg-container-mobile, .svg-mobile {
+    display: none;
+}
+
  .svg-container.show {
     visibility: visible;
 }
@@ -167,11 +171,31 @@ body {
         font-size: 24px;
     }
 
-    .svg-container {
+    .svg-container, .svg {
+        display: none;
+    }
+
+    .svg-mobile{
+        display: block;
+        visibility: visible;
+        margin-top: 100px;
+        height:300px; 
+        width: 300px;
+    }
+
+    .svg-container-mobile {
         visibility: hidden;
-        margin-top: calc(50vh - 350px);
+        display: block;
+        margin-top: calc(50vh - 300px);
         position: absolute;
-        height: 600px;
+        height: 300px;
         top: 0;
+    }
+    .svg-container-mobile.show {
+        visibility: visible;
+    }
+
+    body {
+        background-color: lightblue;
     }
 }
