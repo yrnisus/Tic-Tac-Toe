@@ -199,7 +199,7 @@ const displayController = (() => {
         // // Bruh I tried to get this to work for hours
         console.log(i, winNum);
         const _svgXYArray = [
-            [0, 107, 600, 107],
+            [0, 160, 600, 160],
             [0, 307, 600, 307],
             [0, 507, 600, 507],
             [100, 0, 100, 600],
