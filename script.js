@@ -170,6 +170,7 @@ const gameboard = (() => {
 
 
 const displayController = (() => {
+    const resetSVG = document.querySelector('.reset-btn');
     const gameboardContainer = document.querySelector(('.gameboard-container'));
     const resultText = document.getElementById('result-text');
     const svgContainer = document.querySelector('.svg-container');
@@ -272,12 +273,23 @@ const displayController = (() => {
     }
 
     _clearResult = () => {
-        const gameboardContainer = document.querySelector(('.gameboard-container'));
+        const gameboardContainer = document.querySelector('.gameboard-container');
         gameboardContainer.classList.remove('show');
         svgContainer.classList.remove('show');
         line.classList.remove('animate');
         svgContainerMobile.classList.remove('show');
         lineMobile.classList.remove('animate');
+
+        //bad
+        resetSVG.classList.remove('not-clicked');
+        setTimeout(() => {
+            resetSVG.classList.add('active');
+        }, 250);
+        setTimeout(() => {
+            resetSVG.classList.remove('active');
+            resetSVG.classList.add('not-clicked');
+        }, 2000);
+
         _changeBgColor();
     }
 

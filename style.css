@@ -91,9 +91,9 @@ body {
 }
 
 .reset-btn {
-    margin-top: 30px;
-    width: 50px;
-    height: 50px;
+    margin-top: 60px;
+    width: 100px;
+    height: 100px;
 }
 
 .svg-container {
@@ -110,6 +110,31 @@ body {
 
  .svg-container.show {
     visibility: visible;
+}
+
+svg.reset-btn.not-clicked {
+    animation-name: spin;
+    animation-duration: 15.5s;
+    animation-iteration-count: infinite;
+    transform-origin: 50% 50%;
+    display: inline-block;
+}
+
+svg.reset-btn.active {
+    animation-name: spin;
+    animation-duration: 1.5s;
+    transform-origin: 50% 50%;
+    display: inline-block;
+}
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .path {
