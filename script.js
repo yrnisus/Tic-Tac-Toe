@@ -171,6 +171,8 @@ const gameboard = (() => {
 const displayController = (() => {
     const gameboardContainer = document.querySelector(('.gameboard-container'));
     const resultText = document.getElementById('result-text');
+    const svgContainer  = document.querySelector('.svg-container');
+    const line = document.querySelector('line');
 
     function _privateMethod() {
         console.log(_score);
@@ -195,8 +197,6 @@ const displayController = (() => {
 
     _drawLine = (i, winNum) => {
         // // Bruh I tried to get this to work for hours
-        const svgContainer  = document.querySelector('.svg-container');
-        const line = document.querySelector('line');
         console.log(i, winNum);
         const _svgXYArray = [
             [0, 107, 600, 107],
@@ -244,17 +244,21 @@ const displayController = (() => {
     _clearResult = () => {
         const gameboardContainer = document.querySelector(('.gameboard-container'));
         gameboardContainer.classList.remove('show');
+        svgContainer.classList.remove('show');
+        line.classList.remove('animate');
     }
 
+    
 
     return {
         greeting: () => {
             console.log('Hello World');
         },
+ 
         // get win or tie from gameboard, change the background of gameboard object to show winner
         displayResult: _displayResult,
         clearResult: _clearResult,
-        drawLine: _drawLine
+        drawLine: _drawLine,
     };
 })();
 
