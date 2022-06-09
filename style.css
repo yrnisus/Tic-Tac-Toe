@@ -8,6 +8,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    transition: background-color 1s;
 }
 
 .gameboard-container {
@@ -89,9 +90,9 @@ body {
     margin-left: 3px;
 }
 
-#reset-btn {
-    margin-top: 50px;
-    width: 100px;
+.reset-btn {
+    margin-top: 30px;
+    width: 50px;
     height: 50px;
 }
 
@@ -149,10 +150,8 @@ body {
         margin-top: calc(50vh - 200px);
     }
 
-    #reset-btn {
+    .reset-btn {
         margin-top: 100px;
-        background-color: lightblue;
-        font-size: 24px;
     }
 
     .svg-container, .svg {

@@ -5,7 +5,7 @@ create them with factories. */
 const gameboard = (() => {
     // selects all of the square divs
     const _squares = document.querySelectorAll(".square");
-    const _resetBtn = document.getElementById('reset-btn');
+    const _resetBtn = document.querySelector('.reset-btn');
     let _turn = true;
 
     // 0 1 2
@@ -182,6 +182,23 @@ const displayController = (() => {
         console.log(_score);
     }
 
+    _changeBgColor = () => {
+
+        //fun function to change the background color on game completed
+        const colorArray = [
+            "8895B3","8E94F2","9FA0FF",
+            "BBADFF","DAB6FC","FF958C",
+            "A7C4B5","A9D8B8","BEFFC7",
+            "F1E0C5","C9B79C","E5DADA",
+            "A2D6F9","E9FAE3","FFFFFF",
+            "AC92A6","EDCF8E","DEC4A1",
+            "BFEDEF","98E2C6","E3DE8F",
+            "EDFBC1","D9D375", "EADEDA"
+        ]
+        let color = colorArray[Math.floor(Math.random()*colorArray.length)]
+        console.log(color);
+        document.body.style.backgroundColor = `#${color}`;
+    }
     // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
     _checkIfMobile = () => {
         if (window.matchMedia("(min-width: 450px)").matches) {
@@ -194,12 +211,8 @@ const displayController = (() => {
     };
 
 
-    _displayResult = (state) => {
-        // if (state === 'Win')
-        //     resultText.innerHTML = _displayWin()
-        // else
-        //     resultText.innerHTML = _displayTie();
-        // gameboardContainer.classList.add('show');
+    _displayResult = () => {
+
     }
     _displayWin = () => {
         return gameboard.getInput();
@@ -265,6 +278,7 @@ const displayController = (() => {
         line.classList.remove('animate');
         svgContainerMobile.classList.remove('show');
         lineMobile.classList.remove('animate');
+        _changeBgColor();
     }
 
 
@@ -278,6 +292,7 @@ const displayController = (() => {
         displayResult: _displayResult,
         clearResult: _clearResult,
         drawLine: _drawLine,
+        changeBgColor:_changeBgColor
     };
 })();
 
