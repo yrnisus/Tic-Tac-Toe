@@ -80,8 +80,10 @@ const gameboard = (() => {
             if (a === b && b === c) {
                 win = true;
                 console.log("win");
+                console.log(i, winNum);
+                displayController.drawLine(i, winNum);
                 // _getDrawnLineXY(winNum);
-                displayController.highlightWinner(winNum);
+                // displayController.highlightWinner(winNum);
                 displayController.displayResult();
                 break;
             }
@@ -191,24 +193,53 @@ const displayController = (() => {
 
     // I want to draw a line between the two points but I cannot figure this out
 
-    // _drawLine = (xyCoordLeft, xyCoordRight) => {
-    //     // creates two divs and positions them at the XY coordinates of outer two squares
-    //     let pointLeft = document.createElement('div');
+    _drawLine = (i, winNum) => {
+        // // Bruh I tried to get this to work for hours
+        const svgContainer  = document.querySelector('.svg-container');
+        const line = document.querySelector('line');
+        console.log(i, winNum);
+        const _svgXYArray = [
+            [0, 107, 600, 107],
+            [0, 307, 600, 307],
+            [0, 507, 600, 507],
+            [100, 0, 100, 600],
+            [300, 0, 300, 600],
+            [500, 0, 500, 600],
+            [0, 0, 599, 600],
+            [7, 600, 607, 0]
+        ];
 
-    //     Object.assign(pointLeft.style, {left:`${xyCoordLeft.x}px`, top: `${xyCoordLeft.y}px`})
-    //     pointLeft.setAttribute("id", "victory-line-left");
+        line.setAttribute("x1", `${_svgXYArray[i][0]}`);
+        line.setAttribute("y1", `${_svgXYArray[i][1]}`);
+        line.setAttribute("x2", `${_svgXYArray[i][2]}`);
+        line.setAttribute("y2", `${_svgXYArray[i][3]}`);
 
-    //     let pointRight = document.createElement('div');
-    //     Object.assign(pointRight.style, {left:`${xyCoordRight.x}px`, top: `${xyCoordRight.y}px`})
-    //     pointRight.setAttribute("id", "victory-line-right");
+        // Object.assign(line.attributes, {x1:`${_svgXYArray[i][0]}`, y1:`${_svgXYArray[i][1]}`, x2:`${_svgXYArray[i][2]}`, y2:`${_svgXYArray[i][3]}`})
+        console.log(line);
+        // // creates two divs and positions them at the XY coordinates of outer two squares
+        
+        // let pointLeft = document.createElement('div');
 
-    //     // const line = querySelector.getElementById('line');
-    //     // line.sty
-    //     // console.log(line);
+        // Object.assign(pointLeft.style, {left:`${xyCoordLeft.x}px`, top: `${xyCoordLeft.y}px`})
+        // pointLeft.setAttribute("id", "victory-line-left");
 
-    //     gameboardContainer.appendChild(pointLeft);
-    //     gameboardContainer.appendChild(pointRight);
-    // }
+        // let pointRight = document.createElement('div');
+        // Object.assign(pointRight.style, {left:`${xyCoordRight.x}px`, top: `${xyCoordRight.y}px`})
+        // pointRight.setAttribute("id", "victory-line-right");
+
+        // const line = querySelector.getElementById('line');
+        // line.sty
+        // console.log(line);
+
+        // pointLeft is left of the class svg-container
+        // gameboardContainer.appendChild(pointLeft);
+        // gameboardContainer.appendChild(pointRight);
+
+        svgContainer.classList.add('show');
+        line.classList.add('animate');
+
+
+    }
 
     _clearResult = () => {
         const gameboardContainer = document.querySelector(('.gameboard-container'));
@@ -222,8 +253,8 @@ const displayController = (() => {
         },
         // get win or tie from gameboard, change the background of gameboard object to show winner
         displayResult: _displayResult,
-        clearResult: _clearResult
-        // drawLine: _drawLine
+        clearResult: _clearResult,
+        drawLine: _drawLine
     };
 })();
 
@@ -241,3 +272,4 @@ const displayController = (() => {
 //   capitalizeString(); // ERROR!!
 //   taco.capitalizeString(); // ERROR!!
 //   taco.printString(); // this prints "----TACO----"
+

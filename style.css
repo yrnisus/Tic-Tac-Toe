@@ -24,11 +24,11 @@ body {
     transition: visibility 0s, opacity 0.5s linear;
 }
 
-.gameboard-container.show > #result-text {
+.gameboard-container.show>#result-text {
     visibility: visible;
     opacity: 1;
     content: "X";
-  }
+}
 
 .gameboard-container.show {
     width: 600px;
@@ -38,13 +38,12 @@ body {
     background-color: #fff;
     content: "";
     z-index: 1;
-    font-size: 300px;
     color: #000;
 }
 
-.gameboard-container.show > div:not([id="result-text"]) {
+.gameboard-container.show>div:not([id="result-text"]) {
     display: none;
-  }
+}
 
 .square {
     height: 200px;
@@ -54,6 +53,7 @@ body {
     align-items: center;
     font-size: 100px;
     font-family: 'Noto Sans', sans-serif;
+    z-index: 1;
 }
 
 .top-row {
@@ -111,16 +111,45 @@ body {
 }
 
 
+.svg-container {
+    visibility: hidden;
+    margin-top: calc(50vh - 300px);
+    position: absolute;
+    height: 600px;
+    top: 0;
+}
+
+ .svg-container.show {
+    visibility: visible;
+}
+
+.path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+  
+
+.path.animate {
+    animation: dash 2.0s linear forwards;
+}
+
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
 
 /* mobile */
 
 @media screen and (max-width: 450px) {
     .square {
-      width: 100px;
-      height: 100px;
+        width: 100px;
+        height: 100px;
     }
 
-    .top-row, .middle-row, .bottom-row {
+    .top-row,
+    .middle-row,
+    .bottom-row {
         grid-template-columns: repeat(3, 100px);
     }
 
@@ -136,4 +165,4 @@ body {
         background-color: lightblue;
         font-size: 24px;
     }
-  }
+}
