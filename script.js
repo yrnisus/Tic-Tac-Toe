@@ -178,7 +178,6 @@ const displayController = (() => {
     const line = document.querySelector('line');
     const lineMobile = svgContainerMobile.querySelector('line');
 
-
     function _privateMethod() {
         console.log(_score);
     }
@@ -233,13 +232,13 @@ const displayController = (() => {
         if (_checkIfMobile()) {
             const _svgXYArrayMobile = [
                 [0, 60, 300, 60],
-                [0, 160, 300, 160],
+                [0, 166, 300, 166],
                 [0, 260, 300, 260],
                 [50, 0, 50, 300],
                 [150, 0, 150, 300],
                 [250, 0, 250, 300],
                 [0, 5, 295, 295],
-                [5, 305, 305, 0]
+                [5, 305, 30, 5] //btm left to top
             ];
             lineMobile.setAttribute("x1", `${_svgXYArrayMobile[i][0]}`);
             lineMobile.setAttribute("y1", `${_svgXYArrayMobile[i][1]}`);
@@ -252,14 +251,17 @@ const displayController = (() => {
         // desktop
         else {
             const _svgXYArray = [
+                // horizontals
                 [0, 107, 600, 107],
                 [0, 307, 600, 307],
                 [0, 507, 600, 507],
-                [100, 0, 100, 600],
-                [300, 0, 300, 600],
-                [500, 0, 500, 600],
+                // verticals
+                [100, 0, 100, 607], 
+                [307, 0, 307, 607],
+                [507, 0, 507, 607],
+                // diags
                 [0, 0, 599, 600],
-                [7, 600, 607, 0]
+                [5, 600, 607, 10] //btm left to top
             ];
 
             line.setAttribute("x1", `${_svgXYArray[i][0]}`);
@@ -280,24 +282,27 @@ const displayController = (() => {
         svgContainerMobile.classList.remove('show');
         lineMobile.classList.remove('animate');
 
+        resetSVG.classList.add('active');
+        _changeBgColor();
         //bad
-        resetSVG.classList.remove('not-clicked');
-        setTimeout(() => {
-            resetSVG.classList.add('active');
-        }, 250);
         setTimeout(() => {
             resetSVG.classList.remove('active');
-            resetSVG.classList.add('not-clicked');
-        }, 2000);
+        }, 1000);
 
-        _changeBgColor();
     }
+        // hide the refresh button
+        // display player name input
+        // display choice of AI vs player
 
 
 
     return {
         greeting: () => {
-            console.log('Hello World');
+            const titleArray = ['T', 'I', 'C', 'T','A','C','T', 'O', 'E'];
+            document.querySelectorAll(".square").forEach((square, i) => {
+                square.innerHTML = titleArray[i];
+            })
+         
         },
 
         // get win or tie from gameboard, change the background of gameboard object to show winner
@@ -307,6 +312,8 @@ const displayController = (() => {
         changeBgColor:_changeBgColor
     };
 })();
+
+document.onload = displayController.greeting();
 
 // Factory Function
 
