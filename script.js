@@ -190,7 +190,7 @@ const displayController = (() => {
             "BBADFF","DAB6FC","FF958C",
             "A7C4B5","A9D8B8","BEFFC7",
             "F1E0C5","C9B79C","E5DADA",
-            "A2D6F9","E9FAE3","FFFFFF",
+            "A2D6F9","E9FAE3",
             "AC92A6","EDCF8E","DEC4A1",
             "BFEDEF","98E2C6","E3DE8F",
             "EDFBC1","D9D375", "EADEDA"
@@ -290,19 +290,45 @@ const displayController = (() => {
         }, 1000);
 
     }
+
+    _displayInputs = () => { 
+        const input = document.querySelector('.input-container');
+        input.style.display = 'flex';
+    }
         // hide the refresh button
         // display player name input
         // display choice of AI vs player
 
-
-
     return {
-        greeting: () => {
+        // On start fill the tic-tac-toe board with the title
+        start: () => {
             const titleArray = ['T', 'I', 'C', 'T','A','C','T', 'O', 'E'];
             document.querySelectorAll(".square").forEach((square, i) => {
                 square.innerHTML = titleArray[i];
             })
-         
+            // on click hide the clear the board, display player names
+            document.querySelector('.start-btn').addEventListener('click', displayController.beginGame);
+            document.querySelector('.gameboard-container').addEventListener('click', displayController.beginGame);
+
+            },
+        beginGame: () => {
+            // hide the tictactoe board
+                const board = document.querySelector('.gameboard-container')
+                board.style.display = 'none';
+            //make player inputs appear
+                _displayInputs();
+            //display player names
+
+            //reset the arrays
+
+            //show the tictactoe board
+                gameboard.reset();
+
+                displayController.clearResult()
+                this.removeEventListener('click', displayController.beginGame);
+                document.querySelector('.start-btn').style.display = "none";
+                // resetSVG.style.opacity = "1";
+
         },
 
         // get win or tie from gameboard, change the background of gameboard object to show winner
@@ -313,7 +339,7 @@ const displayController = (() => {
     };
 })();
 
-document.onload = displayController.greeting();
+document.onload = displayController.start();
 
 // Factory Function
 
