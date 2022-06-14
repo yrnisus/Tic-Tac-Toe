@@ -7,6 +7,7 @@ const gameboard = (() => {
     const _squares = document.querySelectorAll(".square");
     const _resetBtn = document.querySelector('.reset-btn');
     let _turn = true;
+    let clickable = true;
 
     // 0 1 2
     // 3 4 5
@@ -31,12 +32,14 @@ const gameboard = (() => {
         // Adds input to gameboard and _selectionArray
         _squares.forEach((square, index) => {
             square.addEventListener("click", () => {
-                if (_checkSquareEmpty(square)) {
-                    _inputToSelectionArray(index);
-                    _inputToPlayerArray(index);
-                    _drawInput(square);
-                    _checkWinner();
-                    _changeTurn();
+                if (clickable) {
+                    if (_checkSquareEmpty(square)) {
+                        _inputToSelectionArray(index);
+                        _inputToPlayerArray(index);
+                        _drawInput(square);
+                        _checkWinner();
+                        _changeTurn();
+                    }
                 }
             })
         });
@@ -51,6 +54,7 @@ const gameboard = (() => {
     // toggles _turn
     _changeTurn = () => {
         _turn = !_turn;
+        displayController.displayPlayerTurnHUD();
     }
     // checks to see if the squares empty
     _checkSquareEmpty = (square) => {
@@ -83,16 +87,15 @@ const gameboard = (() => {
                 win = true;
                 console.log("win");
                 displayController.drawLine(i, winNum);
-                // _getDrawnLineXY(winNum);
-                // displayController.highlightWinner(winNum);
-                displayController.displayResult();
+                //make squares no longer clickable to avoid more inputs
+                _makeGameboardUnclickable();
+                _changeTurn();
                 break;
             }
         }
         if (!win && _checkTie()) {
             console.log('tie');
             _clearArrays();
-            displayController.displayResult();
         }
     }
 
@@ -107,24 +110,6 @@ const gameboard = (() => {
         return (_turn ? "X" : "O");
     }
 
-    // _getDrawnLineXY = (winNum) => {
-    //     // get the xy coords of the of outer two square divs
-    //     let rectLeft = _squares[winNum[0]].getBoundingClientRect();
-    //     let rectRight = _squares[winNum[2]].getBoundingClientRect();
-
-    //     function Coordinates(x, y) {
-    //         this.x = x,
-    //             this.y = y
-    //     };
-    //     // square div is different sizes on mobile vs desktop need to find the midpoint
-    //     const xyCoordLeft = new Coordinates(((rectLeft.right + rectLeft.left) / 2), ((rectLeft.bottom + rectLeft.top) / 2));
-    //     console.log(xyCoordLeft.x, xyCoordLeft.y);
-    //     const xyCoordRight = new Coordinates(((rectRight.right + rectRight.left) / 2), ((rectRight.bottom + rectRight.top) / 2));
-    //     console.log(xyCoordRight.x, xyCoordRight.y);
-
-    //     displayController.drawLine(xyCoordLeft, xyCoordRight);
-    // }
-
     // draws the input to empty square div
     _drawInput = (square) => {
         square.innerHTML = _getInput();
@@ -138,6 +123,10 @@ const gameboard = (() => {
         _turn ? _playerOneArray.push(index) : _playerTwoArray.push(index);
     }
 
+    _makeGameboardUnclickable = () => {
+        clickable = false;
+    }
+
     _addEventListeners()
 
 
@@ -148,6 +137,7 @@ const gameboard = (() => {
                 _clearArrays();
             })
             _turn = true;
+            clickable = true;
         },
 
         show: () => {
@@ -171,12 +161,16 @@ const gameboard = (() => {
 
 const displayController = (() => {
     const resetSVG = document.querySelector('.reset-btn');
-    const gameboardContainer = document.querySelector(('.gameboard-container'));
-    const resultText = document.getElementById('result-text');
+    const gameboardWrapper = document.querySelector(('.gameboard-wrapper'));
     const svgContainer = document.querySelector('.svg-container');
     const svgContainerMobile = document.querySelector('.svg-container-mobile');
     const line = document.querySelector('line');
     const lineMobile = svgContainerMobile.querySelector('line');
+    const hud = document.querySelector('.hud')
+    const startBtn = document.querySelector('.start-btn');
+    const input = document.querySelector('.input-container');
+    let p1Name = "";
+    let p2Name = "";
 
     function _privateMethod() {
         console.log(_score);
@@ -186,43 +180,55 @@ const displayController = (() => {
 
         //fun function to change the background color on game completed
         const colorArray = [
-            "8895B3","8E94F2","9FA0FF",
-            "BBADFF","DAB6FC","FF958C",
-            "A7C4B5","A9D8B8","BEFFC7",
-            "F1E0C5","C9B79C","E5DADA",
-            "A2D6F9","E9FAE3",
-            "AC92A6","EDCF8E","DEC4A1",
-            "BFEDEF","98E2C6","E3DE8F",
-            "EDFBC1","D9D375", "EADEDA"
+            "8895B3", "8E94F2", "9FA0FF",
+            "BBADFF", "DAB6FC", "FF958C",
+            "A7C4B5", "A9D8B8", "BEFFC7",
+            "F1E0C5", "C9B79C", "E5DADA",
+            "A2D6F9", "E9FAE3",
+            "AC92A6", "EDCF8E", "DEC4A1",
+            "BFEDEF", "98E2C6", "E3DE8F",
+            "EDFBC1", "D9D375", "EADEDA"
         ]
-        let color = colorArray[Math.floor(Math.random()*colorArray.length)]
+        let color = colorArray[Math.floor(Math.random() * colorArray.length)]
         console.log(color);
         document.body.style.backgroundColor = `#${color}`;
+        document.getElementById('hud-player').style.backgroundColor = `#FFF`;
     }
     // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
     _checkIfMobile = () => {
         if (window.matchMedia("(min-width: 450px)").matches) {
             /* the viewport is at least 400 pixels wide */
             return false;
-          } else {
+        } else {
             /* the viewport is less than 400 pixels wide */
             return true;
-          }
+        }
     };
 
-
-    _displayResult = () => {
-
+    _getPlayerNames = () => {
+        p1Name = document.getElementById("p1Name").value;
+        p2Name = document.getElementById("p2Name").value;
+        let icon = gameboard.getInput();
+        console.log(icon)
+        if (p1Name.length == 0)
+            p1Name = "Player One"
+        if (p2Name.length == 0)
+            p2Name = "Player Two"
+        _displayPlayerTurnHUD();
     }
-    _displayWin = () => {
-        return gameboard.getInput();
-    }
 
-    _displayTie = () => {
-        return 'Tie';
-    }
+    // _displayResult = () => {
 
-    // I want to draw a line between the two points but I cannot figure this out
+    // }
+
+    // _displayWin = () => {
+    //     return gameboard.getInput();
+    // }
+
+    // _displayTie = () => {
+    //     return 'Tie';
+    // }
+
 
     _drawLine = (i, winNum) => {
         console.log(_checkIfMobile());
@@ -235,10 +241,10 @@ const displayController = (() => {
                 [0, 166, 300, 166],
                 [0, 260, 300, 260],
                 [50, 0, 50, 300],
-                [150, 0, 150, 300],
-                [250, 0, 250, 300],
+                [155, 0, 155, 300],
+                [255, 0, 255, 300],
                 [0, 5, 295, 295],
-                [5, 305, 30, 5] //btm left to top
+                [5, 305, 305, 5] //btm left to top
             ];
             lineMobile.setAttribute("x1", `${_svgXYArrayMobile[i][0]}`);
             lineMobile.setAttribute("y1", `${_svgXYArrayMobile[i][1]}`);
@@ -256,7 +262,7 @@ const displayController = (() => {
                 [0, 307, 600, 307],
                 [0, 507, 600, 507],
                 // verticals
-                [100, 0, 100, 607], 
+                [100, 0, 100, 607],
                 [307, 0, 307, 607],
                 [507, 0, 507, 607],
                 // diags
@@ -275,67 +281,99 @@ const displayController = (() => {
     }
 
     _clearResult = () => {
-        const gameboardContainer = document.querySelector('.gameboard-container');
-        gameboardContainer.classList.remove('show');
+        // const gameboardContainer = document.querySelector('.gameboard-container');
+        // gameboardContainer.classList.remove('show');
         svgContainer.classList.remove('show');
         line.classList.remove('animate');
         svgContainerMobile.classList.remove('show');
         lineMobile.classList.remove('animate');
-
-        resetSVG.classList.add('active');
         _changeBgColor();
+        _displayPlayerTurnHUD();
         //bad
-        setTimeout(() => {
-            resetSVG.classList.remove('active');
-        }, 1000);
-
     }
 
-    _displayInputs = () => { 
-        const input = document.querySelector('.input-container');
+    _displayInputs = () => {
         input.style.display = 'flex';
     }
-        // hide the refresh button
-        // display player name input
-        // display choice of AI vs player
+    // hide the refresh button
+    // display player name input
+    // display choice of AI vs player
 
+    _displayPlayerTurnHUD = () => {
+        let icon = gameboard.getInput();
+        if (icon == 'X') {
+            document.getElementById('hud-player').innerHTML = p1Name;
+        } else {
+            document.getElementById('hud-player').innerHTML = p2Name;
+        }
+        document.getElementById('hud-player-icon').innerHTML = icon;
+    }
     return {
         // On start fill the tic-tac-toe board with the title
         start: () => {
-            const titleArray = ['T', 'I', 'C', 'T','A','C','T', 'O', 'E'];
+            const titleArray = ['T', 'I', 'C', 'T', 'A', 'C', 'T', 'O', 'E'];
             document.querySelectorAll(".square").forEach((square, i) => {
                 square.innerHTML = titleArray[i];
             })
             // on click hide the clear the board, display player names
-            document.querySelector('.start-btn').addEventListener('click', displayController.beginGame);
-            document.querySelector('.gameboard-container').addEventListener('click', displayController.beginGame);
+            startBtn.addEventListener('click', displayController.showInputScreen);
+            gameboardWrapper.addEventListener('click', displayController.showInputScreen);
 
-            },
-        beginGame: () => {
+        },
+        showInputScreen: () => {
             // hide the tictactoe board
-                const board = document.querySelector('.gameboard-container')
-                board.style.display = 'none';
+            gameboardWrapper.style.display = 'none';
+            //hide the hud
+            hud.style.display = 'none';
             //make player inputs appear
-                _displayInputs();
+            _displayInputs();
             //display player names
 
             //reset the arrays
 
             //show the tictactoe board
-                gameboard.reset();
+            gameboard.reset();
 
-                displayController.clearResult()
-                this.removeEventListener('click', displayController.beginGame);
-                document.querySelector('.start-btn').style.display = "none";
-                // resetSVG.style.opacity = "1";
+            displayController.clearResult()
+            //remove event listeners
+            gameboardWrapper.removeEventListener('click', displayController.showInputScreen);
+            startBtn.removeEventListener('click', displayController.showInputScreen);
+
+            startBtn.addEventListener('click', displayController.beginGame);
+            // document.querySelector('.start-btn').style.display = "none";
+            // resetSVG.style.opacity = "1";
 
         },
+        beginGame: () => {
+            //get playernames
+            _getPlayerNames();
+            //hide input container
+            input.style.display = 'none';
+            //show tic-tac-toe board
+            gameboardWrapper.style.display = 'flex';
+            //show hud
+            hud.style.display = 'flex';
+            hud.style.visibility = 'visible';
+            //hide start btn
+            document.querySelector('.start-wrapper').style.display = 'none';
+            //show reset btn
+            document.querySelector('.reset-wrapper').style.display = "flex";
+            resetSVG.style.display = "block";
+            resetSVG.style.opacity = "1";
+            resetSVG.addEventListener('click', () => {
+                resetSVG.classList.add('active');
+                setTimeout(() => {
+                    resetSVG.classList.remove('active');
+                }, 1500)
+            })
+        },
+
 
         // get win or tie from gameboard, change the background of gameboard object to show winner
-        displayResult: _displayResult,
         clearResult: _clearResult,
         drawLine: _drawLine,
-        changeBgColor:_changeBgColor
+        changeBgColor: _changeBgColor,
+        displayPlayerTurnHUD: _displayPlayerTurnHUD
     };
 })();
 

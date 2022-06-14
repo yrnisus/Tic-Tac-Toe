@@ -14,54 +14,56 @@
 </head>
 <body>
     <div class="hud">
-        <div>Player One</div>
-        <div>Player Two</div>
+        <div id="hud-player-icon"></div>
+        <div id="hud-player"></div>
     </div>
     <div class="svg-container">
         <svg class= 'svg' height="600" width="600">
             <line class="path" x1="0" y1="0" x2="0" y2="0" style="stroke-linejoin:round;stroke:red;stroke-width:10" />
           </svg>
     </div>
-    <div class="svg-container-mobile">
-        <svg class='svg-mobile' height="300" width="300">
-            <line class="path" x1="0" y1="0" x2="0" y2="0" style="stroke-linejoin:round;stroke:red;stroke-width:10" />
-          </svg>
-    </div>
-    <div class="gameboard-container">
-
-        <div id="result-text"></div>
-        <div class="top-row">
-            <div class="left-column square"></div>
-            <div class="middle-column square"></div>
-            <div class="right-column square"></div>
+    <div class="gameboard-wrapper">
+        <div class="svg-container-mobile">
+            <svg class='svg-mobile' height="300" width="300">
+                <line class="path" x1="0" y1="0" x2="0" y2="0" style="stroke-linejoin:round;stroke:red;stroke-width:10" />
+              </svg>
         </div>
-        <div class="middle-row">
-            <div class="left-column  square"></div>
-            <div class="middle-column square"></div>
-            <div class="right-column square"></div>
-        </div>
-        <div class="bottom-row">
-            <div class="left-column square"></div>
-            <div class="middle-column square"></div>
-            <div class="right-column square"></div>
+        <div class="gameboard-container">
+            <div id="result-text"></div>
+            <div class="top-row">
+                <div class="left-column square"></div>
+                <div class="middle-column square"></div>
+                <div class="right-column square"></div>
+            </div>
+            <div class="middle-row">
+                <div class="left-column  square"></div>
+                <div class="middle-column square"></div>
+                <div class="right-column square"></div>
+            </div>
+            <div class="bottom-row">
+                <div class="left-column square"></div>
+                <div class="middle-column square"></div>
+                <div class="right-column square"></div>
+            </div>
         </div>
     </div>
     <div class="input-container">
         <div class="input-img">X</div>
         <div class="input-ttt">
-            <input type="text" name="" id="" placeholder="Player One">
+            <input type="text" name="p1Name" id="p1Name" placeholder="Player One">
             vs.
-            <input type="text" name="" id="" placeholder="Player Two">
+            <input type="text" name="p2Name" id="p2Name" placeholder="Player Two">
         </div>
             <div class="input-img">O</div>
     </div>
     <div class="reset-wrapper">
-        <btn class='start-btn'>Start</btn>
-        <svg class='reset-btn not-clicked' style="width:75px;height:75px" viewBox="0 0 24 24">
+        <svg class='reset-btn' style="width:75px;height:75px" viewBox="0 0 24 24">
             <path fill="currentColor" d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" />
         </svg>
     </div>
-    <!-- <img class='reset-btn' src="./images/refresh.png" alt="Restart Game"> -->
+    <div class="start-wrapper">
+        <btn class='start-btn'>Start</btn>
+    </div>
 
 </body>
 </html>
