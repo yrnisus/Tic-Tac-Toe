@@ -238,6 +238,7 @@ body {
     display: none;
     opacity: 0;
     transition: opacity 1.0s ease-in-out;
+    margin-bottom: 30px;
 }
 
 
