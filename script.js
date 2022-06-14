@@ -86,6 +86,7 @@ const gameboard = (() => {
             if (a === b && b === c) {
                 win = true;
                 console.log("win");
+                displayController.highlightSquares(winNum);
                 displayController.drawLine(i, winNum);
                 //make squares no longer clickable to avoid more inputs
                 _makeGameboardUnclickable();
@@ -135,6 +136,7 @@ const gameboard = (() => {
             _squares.forEach((square) => {
                 square.innerHTML = "";
                 _clearArrays();
+                square.style.color = '#000';
             })
             _turn = true;
             clickable = true;
@@ -169,6 +171,8 @@ const displayController = (() => {
     const hud = document.querySelector('.hud')
     const startBtn = document.querySelector('.start-btn');
     const input = document.querySelector('.input-container');
+    const squares = document.querySelectorAll(".square");
+
     let p1Name = "";
     let p2Name = "";
 
@@ -308,11 +312,19 @@ const displayController = (() => {
         }
         document.getElementById('hud-player-icon').innerHTML = icon;
     }
+
+    _highlightSquares = (winNum) => {
+        for (let i = 0; i < winNum.length; i++) {
+            //go through square array changing bg color of winning squares
+            squares[winNum[i]].style.color = 'red';
+        }
+    }
+
     return {
         // On start fill the tic-tac-toe board with the title
         start: () => {
             const titleArray = ['T', 'I', 'C', 'T', 'A', 'C', 'T', 'O', 'E'];
-            document.querySelectorAll(".square").forEach((square, i) => {
+            squares.forEach((square, i) => {
                 square.innerHTML = titleArray[i];
             })
             // on click hide the clear the board, display player names
@@ -373,7 +385,8 @@ const displayController = (() => {
         clearResult: _clearResult,
         drawLine: _drawLine,
         changeBgColor: _changeBgColor,
-        displayPlayerTurnHUD: _displayPlayerTurnHUD
+        displayPlayerTurnHUD: _displayPlayerTurnHUD,
+        highlightSquares: _highlightSquares
     };
 })();
 
