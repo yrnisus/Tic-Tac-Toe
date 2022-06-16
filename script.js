@@ -369,7 +369,7 @@ const displayController = (() => {
             //hide start btn
             document.querySelector('.start-wrapper').style.display = 'none';
             //show reset btn
-            document.querySelector('.reset-wrapper').style.display = "flex";
+            document.querySelector('.reset-wrapper').style.display = 'flex';
             resetSVG.style.display = "block";
             resetSVG.style.opacity = "1";
             resetSVG.addEventListener('click', () => {

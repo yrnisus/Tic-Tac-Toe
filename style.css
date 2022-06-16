@@ -7,7 +7,7 @@ body {
 
 body {
     display: grid;
-    grid-template-rows: 3fr 650px 150px;
+    grid-template-rows: 1fr 650px 150px;
     grid-template-columns: 1fr;
     transition: background-color 1s;
 }
@@ -238,9 +238,14 @@ body {
     display: none;
     opacity: 0;
     transition: opacity 1.0s ease-in-out;
-    margin-bottom: 30px;
+    height: 60px;
+    width: 60px;
 }
 
+.img-container {
+    width: 100px;
+    height: 100px;
+}
 
 .svg-container {
     visibility: hidden;
@@ -261,7 +266,7 @@ body {
     z-index: 1;
 }
 
-svg.reset-btn.active {
+.reset-btn.active {
     animation-name: spin;
     animation-duration: 1s;
     transform-origin: 50% 50%;
@@ -338,10 +343,6 @@ svg.reset-btn.active {
         grid-template: repeat(3, 100px) / repeat(3, 100px);
     }
 
-    .reset-btn {
-        margin-top: 100px;
-    }
-
     .svg-container,
     .svg {
         display: none;
@@ -364,7 +365,9 @@ svg.reset-btn.active {
         margin-top: calc(50vh - 300px);
         position: absolute;
         height: 300px;
+        width: 300px;
         top: 0;
+        border: 1px solid red;
     }
 
     .svg-container-mobile.show,
@@ -377,4 +380,11 @@ svg.reset-btn.active {
         align-items: center;
         justify-content: center;
     }
+}
+
+@media screen and (max-height: 700px) {
+    body {
+        grid-template-rows: 1fr 350px 150px;
+    }
+
 }
