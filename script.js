@@ -119,7 +119,6 @@ const gameboard = (() => {
                 displayController.drawLine(i, winNum);
                 //make squares no longer clickable to avoid more inputs
                 _makeGameboardUnclickable();
-                _changeTurn();
                 return true
             }
         }
@@ -151,7 +150,6 @@ const gameboard = (() => {
     _playerTurn = (square, index) => {
         //executes turn on selected square
         processTurn(square, index);
-        console.log(_checkWinner())
         if (!_checkWinner())
             if (computerOpponent)
                 _computerTurn();
@@ -248,10 +246,6 @@ const displayController = (() => {
 
     let p1Name = "";
     let p2Name = "";
-
-    function _privateMethod() {
-        console.log(_score);
-    }
 
     _changeBgColor = () => {
 
