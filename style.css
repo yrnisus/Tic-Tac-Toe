@@ -328,7 +328,7 @@ body {
 .svg-container {
     visibility: hidden;
     position: absolute;
-    height: 600px;
+    height: 612px;
 }
 
 .svg-container-mobile,
@@ -417,19 +417,19 @@ body {
         display: block;
         pointer-events: none;
         visibility: hidden;
-        margin-top: 145px;
-        height: 300px;
-        width: 300px;
+        margin-top: 148px;
+        height: 306px;
+        width: 306px;
     }
 
     .svg-container-mobile {
         visibility: hidden;
         display: block;
         grid-row: 2/3;
-        margin-top: calc(50vh - 300px);
+        margin-top: calc(50vh - 294px);
         position: absolute;
-        height: 300px;
-        width: 300px;
+        height: 306px;
+        width: 306px;
         top: 0;
     }
 

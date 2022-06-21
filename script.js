@@ -320,8 +320,8 @@ const displayController = (() => {
                 [50, 0, 50, 300],
                 [155, 0, 155, 300],
                 [255, 0, 255, 300],
-                [0, 5, 295, 295],
-                [5, 305, 305, 5] //btm left to top
+                [0, 0, 306, 306],
+                [0, 306, 306, 0] //btm left to top
             ];
             lineMobile.setAttribute("x1", `${_svgXYArrayMobile[i][0]}`);
             lineMobile.setAttribute("y1", `${_svgXYArrayMobile[i][1]}`);
