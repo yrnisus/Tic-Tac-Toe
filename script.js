@@ -141,6 +141,7 @@ const gameboard = (() => {
             _inputToSelectionArray(index);
             _inputToPlayerArray(index);
             _drawInput(square);
+            square.classList.add('animate');
             _checkWinner();
             if (!_checkWinner())
                 _changeTurn();
@@ -158,14 +159,18 @@ const gameboard = (() => {
     _computerTurn = () => {
         //pick a random square index
         let empty = false;
+        let square;
+        let index;
         do {
-            let index = [Math.floor(Math.random() * _squares.length)];
-            let square = _squares[index];
-            if (_checkSquareEmpty(square)) {
-                processTurn(square, index);
+            index = [Math.floor(Math.random() * _squares.length)];
+            square = _squares[index];
+            if (_checkSquareEmpty(square))
                 empty = true;
-            }
         } while (!empty)
+        // delays computer input appearing
+        setTimeout(() => {
+            processTurn(square, index);
+        }, 750);
     }
     // determines if input should be X or O
     _getInput = () => {
@@ -458,18 +463,3 @@ const displayController = (() => {
 })();
 
 document.onload = displayController.start();
-
-// Factory Function
-
-// const FactoryFunction = string => {
-//     const capitalizeString = () => string.toUpperCase();
-//     const printString = () => console.log(`----${capitalizeString()}----`);
-//     return { printString };
-//   };
-
-//   const taco = FactoryFunction('taco');
-
-//   printString(); // ERROR!!
-//   capitalizeString(); // ERROR!!
-//   taco.capitalizeString(); // ERROR!!
-//   taco.printString(); // this prints "----TACO----"
