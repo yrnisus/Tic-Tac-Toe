@@ -6,8 +6,13 @@ const gameboard = (() => {
     // selects all of the square divs
     const _squares = document.querySelectorAll(".square");
     const _resetBtn = document.querySelector('.reset-btn');
+    const _opponentBtn = document.querySelectorAll('.opponent-btn')
+    const _playerOpponentBtn = document.querySelector('.player-opponent-btn');
+    const _computerOpponentBtn = document.querySelector('.computer-opponent-btn');
+    const _difficultyBtn = document.querySelectorAll('.difficulty-btn');
     let _turn = true;
     let clickable = true;
+    let computerOpponent = false;
 
     // 0 1 2
     // 3 4 5
@@ -33,13 +38,7 @@ const gameboard = (() => {
         _squares.forEach((square, index) => {
             square.addEventListener("click", () => {
                 if (clickable) {
-                    if (_checkSquareEmpty(square)) {
-                        _inputToSelectionArray(index);
-                        _inputToPlayerArray(index);
-                        _drawInput(square);
-                        _checkWinner();
-                        _changeTurn();
-                    }
+                    _playerTurn(square, index);
                 }
             })
         });
@@ -47,6 +46,34 @@ const gameboard = (() => {
         _resetBtn.addEventListener('click', () => {
             gameboard.reset();
             displayController.clearResult()
+        });
+
+        _opponentBtn.forEach((btn, i) => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('selected');
+                // call function to toggle active btn selection
+                _toggleOpponent(_opponentBtn, i);
+            })
+        });
+        _difficultyBtn.forEach((btn, i) => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('selected');
+                // call function to toggle active btn selection
+                _toggleOpponent(_difficultyBtn, i);
+            })
+        });
+
+        //turns off AI selection
+        _playerOpponentBtn.addEventListener('click', () => {
+            document.getElementById("difficulty-container").style.display = "none";
+            document.getElementById('p2Name').style.display = "flex";
+            computerOpponent = false;
+        })
+        //turns on AI selection
+        _computerOpponentBtn.addEventListener('click', () => {
+            document.getElementById("difficulty-container").style.display = "flex";
+            document.getElementById('p2Name').style.display = "none";
+            computerOpponent = true;
         })
 
         callback = (e) => {}
@@ -66,6 +93,9 @@ const gameboard = (() => {
         return !_selectionArray.includes(undefined);
     }
 
+    _checkComputer = () => {
+        return computerOpponent;
+    }
     _checkWinner = () => {
         let win = false;
         // Win State
@@ -85,19 +115,19 @@ const gameboard = (() => {
             // if they contain same value then winner
             if (a === b && b === c) {
                 win = true;
-                console.log("win");
                 displayController.highlightSquares(winNum);
                 displayController.drawLine(i, winNum);
                 //make squares no longer clickable to avoid more inputs
                 _makeGameboardUnclickable();
                 _changeTurn();
-                break;
+                return true
             }
         }
         if (!win && _checkTie()) {
             console.log('tie');
             _clearArrays();
         }
+        return false;
     }
 
     // resets all of the arrays to empty
@@ -105,6 +135,39 @@ const gameboard = (() => {
         _selectionArray = new Array(9);
         _playerOneArray.splice(0, _playerOneArray.length);
         _playerTwoArray.splice(0, _playerTwoArray.length);
+    }
+
+    processTurn = (square, index) => {
+        if (_checkSquareEmpty(square)) {
+            _inputToSelectionArray(index);
+            _inputToPlayerArray(index);
+            _drawInput(square);
+            _checkWinner();
+            if (!_checkWinner())
+                _changeTurn();
+        }
+    }
+
+    _playerTurn = (square, index) => {
+        //executes turn on selected square
+        processTurn(square, index);
+        console.log(_checkWinner())
+        if (!_checkWinner())
+            if (computerOpponent)
+                _computerTurn();
+    }
+    //handles computer turns
+    _computerTurn = () => {
+        //pick a random square index
+        let empty = false;
+        do {
+            let index = [Math.floor(Math.random() * _squares.length)];
+            let square = _squares[index];
+            if (_checkSquareEmpty(square)) {
+                processTurn(square, index);
+                empty = true;
+            }
+        } while (!empty)
     }
     // determines if input should be X or O
     _getInput = () => {
@@ -127,7 +190,16 @@ const gameboard = (() => {
     _makeGameboardUnclickable = () => {
         clickable = false;
     }
+    _toggleOpponent = (btnArr, i) => {
+        if (i == 0)
+            btnArr[1].classList.remove("selected");
+        else
+            btnArr[0].classList.remove("selected");
 
+    }
+    _toggleComputerOpponent = () => {
+        computerOpponent != computerOpponent;
+    }
     _addEventListeners()
 
 
@@ -156,7 +228,8 @@ const gameboard = (() => {
             })
             return arr;
         },
-        getInput: _getInput
+        getInput: _getInput,
+        checkComputer: _checkComputer
     };
 })();
 
@@ -194,7 +267,6 @@ const displayController = (() => {
             "EDFBC1", "D9D375", "EADEDA"
         ]
         let color = colorArray[Math.floor(Math.random() * colorArray.length)]
-        console.log(color);
         document.body.style.backgroundColor = `#${color}`;
         document.getElementById('hud-player').style.backgroundColor = `#FFF`;
     }
@@ -213,10 +285,12 @@ const displayController = (() => {
         p1Name = document.getElementById("p1Name").value;
         p2Name = document.getElementById("p2Name").value;
         let icon = gameboard.getInput();
-        console.log(icon)
         if (p1Name.length == 0)
             p1Name = "Player One"
-        if (p2Name.length == 0)
+        // check computer
+        if (gameboard.checkComputer()) {
+            p2Name = "Computer";
+        } else if (p2Name.length == 0)
             p2Name = "Player Two"
         _displayPlayerTurnHUD();
     }
@@ -235,7 +309,6 @@ const displayController = (() => {
 
 
     _drawLine = (i, winNum) => {
-        console.log(_checkIfMobile());
         // // Bruh I tried to get this to work for hours
 
         // mobile
