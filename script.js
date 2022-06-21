@@ -170,7 +170,7 @@ const gameboard = (() => {
         // delays computer input appearing
         setTimeout(() => {
             processTurn(square, index);
-        }, 750);
+        }, 1000);
     }
     // determines if input should be X or O
     _getInput = () => {
@@ -210,6 +210,7 @@ const gameboard = (() => {
         reset: () => {
             _squares.forEach((square) => {
                 square.innerHTML = "";
+                square.classList.remove('animate');
                 _clearArrays();
                 square.style.color = '#000';
             })
