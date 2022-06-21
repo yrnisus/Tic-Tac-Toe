@@ -401,6 +401,13 @@ body {
         height: 100px;
     }
 
+    .left-border, .right-border {
+        width: 3px;
+    }
+    
+    .top-border, .bottom-border {
+        height: 3px;
+    }
     .gameboard-container {
         height: 306px;
         width: 306px;
