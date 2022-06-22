@@ -2,7 +2,7 @@ html,
 body {
     margin: 0;
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 button {
@@ -105,7 +105,8 @@ body {
     background-color: #000;
 }
 
-.opponent-btn, .difficulty-btn {
+.opponent-btn,
+.difficulty-btn {
     width: 101px;
     height: 30px;
     text-align: center;
@@ -117,7 +118,8 @@ body {
     outline: inherit;
 }
 
-.opponent-btn.selected, .difficulty-btn.selected {
+.opponent-btn.selected,
+.difficulty-btn.selected {
     background-color: #BD4F6C;
     font-weight: bold;
 }
@@ -125,6 +127,7 @@ body {
 #difficulty-container {
     display: none;
 }
+
 .input-img {
     display: flex;
     justify-content: center;
@@ -193,10 +196,15 @@ body {
     animation-fill-mode: backwards;
 }
 
-  @keyframes appear{
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
 
 .square .unclickable {
     pointer-events: none;
@@ -208,12 +216,14 @@ body {
     background-color: #000;
 }
 
-.left-border, .right-border {
+.left-border,
+.right-border {
     grid-row: 1 / 6;
     width: 6px;
 }
 
-.top-border, .bottom-border {
+.top-border,
+.bottom-border {
     grid-column: 1/ 6;
     height: 6px;
 }
@@ -401,13 +411,16 @@ body {
         height: 100px;
     }
 
-    .left-border, .right-border {
+    .left-border,
+    .right-border {
         width: 3px;
     }
-    
-    .top-border, .bottom-border {
+
+    .top-border,
+    .bottom-border {
         height: 3px;
     }
+
     .gameboard-container {
         height: 306px;
         width: 306px;
@@ -424,20 +437,17 @@ body {
         display: block;
         pointer-events: none;
         visibility: hidden;
-        margin-top: 148px;
+        /* margin-top: 148px;
         height: 306px;
-        width: 306px;
+        width: 306px; */
     }
 
     .svg-container-mobile {
         visibility: hidden;
         display: block;
-        grid-row: 2/3;
-        margin-top: calc(50vh - 294px);
         position: absolute;
         height: 306px;
         width: 306px;
-        top: 0;
     }
 
     .svg-container-mobile.show,
