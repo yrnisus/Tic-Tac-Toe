@@ -152,8 +152,10 @@ const gameboard = (() => {
         //executes turn on selected square
         processTurn(square, index);
         if (!_checkWinner())
-            if (computerOpponent)
+            if (computerOpponent) {
+                clickable = false;
                 _computerTurn();
+            }
     }
     //handles computer turns
     _computerTurn = () => {
@@ -170,6 +172,7 @@ const gameboard = (() => {
         // delays computer input appearing
         setTimeout(() => {
             processTurn(square, index);
+            clickable = true;
         }, 1000);
     }
     // determines if input should be X or O
