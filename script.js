@@ -45,7 +45,8 @@ const gameboard = (() => {
         // Reset gameboard and _selectionArray on click
         _resetBtn.addEventListener('click', () => {
             gameboard.reset();
-            displayController.clearResult()
+            displayController.clearResult();
+            displayController.changeBgColor();
         });
 
         _opponentBtn.forEach((btn, i) => {
@@ -371,7 +372,6 @@ const displayController = (() => {
         line.classList.remove('animate');
         svgContainerMobile.classList.remove('show');
         lineMobile.classList.remove('animate');
-        _changeBgColor();
         _displayPlayerTurnHUD();
         //bad
     }
@@ -399,7 +399,7 @@ const displayController = (() => {
             squares[winNum[i]].style.color = 'red';
         }
     }
-
+    _changeBgColor();
     return {
         // On start fill the tic-tac-toe board with the title
         start: () => {
