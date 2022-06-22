@@ -13,7 +13,7 @@ const gameboard = (() => {
     let _turn = true;
     let clickable = true;
     let computerOpponent = false;
-
+    let _tie = false;
     // 0 1 2
     // 3 4 5
     // 6 7 8
@@ -123,7 +123,9 @@ const gameboard = (() => {
             }
         }
         if (!win && _checkTie()) {
-            console.log('tie');
+            _tie = true;
+            // call function to display Tie message
+            displayController.displayTieScreen();
             _clearArrays();
         }
         return false;
@@ -168,7 +170,7 @@ const gameboard = (() => {
             square = _squares[index];
             if (_checkSquareEmpty(square))
                 empty = true;
-        } while (!empty)
+        } while (!empty && _tie == false)
         // delays computer input appearing
         setTimeout(() => {
             processTurn(square, index);
@@ -216,6 +218,7 @@ const gameboard = (() => {
                 square.classList.remove('animate');
                 _clearArrays();
                 square.style.color = '#000';
+                _tie = false;
             })
             _turn = true;
             clickable = true;
@@ -284,6 +287,20 @@ const displayController = (() => {
         }
     };
 
+    _displayTieScreen = () => {
+        // squares.forEach((square) => {
+        //     square.innerHTML = "";
+        // })
+        let counter = 0;
+        let tieArr = ["T", "I", "E"];
+        for (let i = 3; i < 6; i++) {
+            square = squares[i];
+            squares[i].innerHTML = tieArr[counter];
+            squares[i].style.color = 'red';
+            counter++;
+        }
+    }
+
     _getPlayerNames = () => {
         p1Name = document.getElementById("p1Name").value;
         p2Name = document.getElementById("p2Name").value;
@@ -297,19 +314,6 @@ const displayController = (() => {
             p2Name = "Player Two"
         _displayPlayerTurnHUD();
     }
-
-    // _displayResult = () => {
-
-    // }
-
-    // _displayWin = () => {
-    //     return gameboard.getInput();
-    // }
-
-    // _displayTie = () => {
-    //     return 'Tie';
-    // }
-
 
     _drawLine = (i, winNum) => {
         // // Bruh I tried to get this to work for hours
@@ -462,7 +466,8 @@ const displayController = (() => {
         drawLine: _drawLine,
         changeBgColor: _changeBgColor,
         displayPlayerTurnHUD: _displayPlayerTurnHUD,
-        highlightSquares: _highlightSquares
+        highlightSquares: _highlightSquares,
+        displayTieScreen: _displayTieScreen
     };
 })();
 
